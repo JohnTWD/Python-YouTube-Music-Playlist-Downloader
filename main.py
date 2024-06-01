@@ -2,7 +2,7 @@ import requests;
 import os;
 from subprocess import call;
 
-from constants import baseUrl;
+from constants import getBaseUrl;
 from constants import setBaseUrl;
 from utils.miscUtils import *;
 from utils.playlistParserUtils import *;
@@ -19,10 +19,10 @@ def main():
   print('@' + os.getcwd());
 
   customInstance: str = input("If the main instance `https://pipedapi.kavin.rocks` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
-  if (not not customInstance): # custom instance is not empty
+  if (customInstance): # custom instance is not empty
     setBaseUrl(customInstance);
 
-  print(f"baseUrl={baseUrl}");
+  print(f"getBaseUrl()={getBaseUrl()}");
 
   plId: str = input("Enter playlist ID: ");
   plInfo: Playlist = getPlaylist(plId);

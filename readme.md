@@ -8,6 +8,16 @@ Hello guys this is a simple youtube playlist downloader by me.
 
 **Don't expect it to work too well right now**
 
+#### Update:
+At the time this commit is pushed, I have found a working alternative PipedAPI instance. Use the following baseUrl for now:
+> https://pipedapi.syncpundit.io
+
+#### How to use:
+1. Download [`FFMPEG`](https://ffmpeg.org/download.html)
+2. Run `main.py`
+3. I guess that's it. Just follow the instructions.
+
+
 I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for its API can be found here: https://github.com/TeamPiped/Piped
 
 ### TODO LIST

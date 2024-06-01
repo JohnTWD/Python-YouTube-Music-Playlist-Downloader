@@ -3,7 +3,7 @@ import os;
 from subprocess import call;
 from dataclasses import dataclass;
 
-from constants import baseUrl;
+from constants import getBaseUrl;
 
 @dataclass
 class AudioInfo:
@@ -60,7 +60,7 @@ def downloadAudio(audioInfo: AudioInfo) -> None:
 
 
 def getBestAudio(idVideo: str) -> AudioInfo:
-    allStreams: str = f"{baseUrl}/streams/{idVideo}";
+    allStreams: str = f"{getBaseUrl()}/streams/{idVideo}";
     print("Attempting to get highest quality audio... ", end='');
     response: requests.Response = requests.get(allStreams);
     if (response.status_code != 200):

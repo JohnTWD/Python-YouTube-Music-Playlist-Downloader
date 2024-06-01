@@ -2,7 +2,7 @@ from dataclasses import dataclass;
 from urllib.parse import quote;
 import requests;
 
-from constants import baseUrl;
+from constants import getBaseUrl;
 
 @dataclass
 class PlaylistVideo:
@@ -25,7 +25,7 @@ class Playlist:
 
 # Playlist parser
 def getPlaylist(playlistId: str) -> Playlist:
-    playlistUrl: str = f"{baseUrl}/playlists/{playlistId}";
+    playlistUrl: str = f"{getBaseUrl()}/playlists/{playlistId}";
     videos: list = [];
 
     # Fetch initial playlist data
@@ -42,7 +42,7 @@ def getPlaylist(playlistId: str) -> Playlist:
     # Deal with the pagesss
     while ("nextpage" in data and data["nextpage"]):
         nextpage: str = quote(data["nextpage"]);
-        nextUrl:  str = f"{baseUrl}/nextpage/playlists/{playlistId}?nextpage={nextpage}";
+        nextUrl:  str = f"{getBaseUrl()}/nextpage/playlists/{playlistId}?nextpage={nextpage}";
         
         print(nextUrl)
 
