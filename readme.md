@@ -4,9 +4,9 @@
 
 Hello guys this is a simple youtube playlist downloader by me.
 
-**It currently (as of 2024/6/1) sucks a bit because the API I use for downloading stuff is currently facing some kind of outage.**
+~~It currently (as of 2024/6/1) sucks a bit because the API I use for downloading stuff is currently facing some kind of outage.~~
 
-**Don't expect it to work too well right now**
+~~**Don't expect it to work too well right now**~~
 
 #### Update:
 At the time this commit is pushed, I have found a working alternative PipedAPI instance. Use the following baseUrl for now:
