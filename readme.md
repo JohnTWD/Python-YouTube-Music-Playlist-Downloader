@@ -4,7 +4,9 @@
 
 Hello guys this is a simple youtube playlist downloader by me.
 
-It currently (as of 2024/6/1) sucks a bit because the API I use for downloading stuff is currently facing some kind of outage.
+**It currently (as of 2024/6/1) sucks a bit because the API I use for downloading stuff is currently facing some kind of outage.**
+
+**Don't expect it to work too well right now**
 
 I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for its API can be found here: https://github.com/TeamPiped/Piped
 
