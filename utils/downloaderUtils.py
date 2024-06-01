@@ -11,17 +11,8 @@ class AudioInfo:
     title:  str;
     artist: str;
 
-def __removeIllegalChar(string: str) -> str: # top 10 hardcoding
-  rtn = string.replace('\\', '');
-  rtn = rtn.replace('/', '');
-  rtn = rtn.replace(':', '');
-  rtn = rtn.replace('*', '');
-  rtn = rtn.replace('?', '');
-  rtn = rtn.replace('"', '');
-  rtn = rtn.replace('<', '');
-  rtn = rtn.replace('>', '');
-  rtn = rtn.replace('|', '');
-  return rtn;
+def __removeIllegalChar(string: str) -> str:
+    return re.sub(r"[\\/*?:\"<>|]", '', str)
 
 def __convertFile(audioInfo: AudioInfo) -> None:
     fileInPath:  str = os.path.join(os.getcwd(), audioInfo.title + ".temp");
