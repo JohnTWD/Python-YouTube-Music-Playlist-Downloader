@@ -156,3 +156,6 @@ cython_debug/
 
 # Visual Studio Nonsense
 /.vs
+
+# logs folder
+/logs

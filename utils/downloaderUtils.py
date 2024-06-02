@@ -3,7 +3,7 @@ import os;
 from subprocess import call;
 
 from constants import getBaseUrl
-from utils.miscUtils import removeIllegalChar;
+from utils.miscUtils import removeIllegalChar, logF;
 from classes.AudioInfo import AudioInfo;
 from classes.PlaylistVideo import PlaylistVideo;
 
@@ -18,13 +18,13 @@ def __convertFile(audioInfo: AudioInfo) -> None:
 
 	if (os.path.exists(fileOutPath)):
 		os.remove(fileInPath)   # get rid of the original file
-		print(f'Converted: {fileOutPath} to MP3');
+		logF(f'Converted: {fileOutPath} to MP3');
 	else:
 		raise Exception("Something went wrong with conversion. Leaving temp file alone...");
 
 
 def downloadAudio(audioInfo: AudioInfo) -> None:
-	print("Beginning download...", end="", flush=True);
+	logF("Beginning download...", end="", flush=True);
 	filePath: str = os.path.join(os.getcwd(), audioInfo.title + ".temp");
 
 	with requests.get(audioInfo.url, stream=True) as r:
@@ -34,18 +34,18 @@ def downloadAudio(audioInfo: AudioInfo) -> None:
 			i: int = 0;
 			for chunk in r.iter_content(chunk_size=8192):
 				if (i >= 50):
-					print('.', end='', flush=True);
+					logF('.', end='', flush=True);
 					i = 0;
 				f.write(chunk);
 				i += 1;
 
-	print("Audio downloaded successfully; Beginning conversion...", end='', flush=True);
+	logF("Audio downloaded successfully; Beginning conversion...", end='', flush=True);
 	__convertFile(audioInfo);
 
 
 def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
 	allStreams: str = f"{getBaseUrl()}/streams/{playlistVideo.link}"
-	print(f"\n{playlistVideo.index} {playlistVideo.title} | Attempting to get highest quality audio... ", end='', flush=True);
+	logF(f"\n{playlistVideo.index} {playlistVideo.title} | Attempting to get highest quality audio... ", end='', flush=True);
 
 	response: requests.Response = requests.get(allStreams);
 	if (response.status_code != 200):
@@ -59,7 +59,7 @@ def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
 
 	# Find the audio stream with the highest bitrate
 	bestStream = max(audioStreams, key=lambda stream: stream.get("bitrate", 0));
-	print(f"Found: {bestStream.get('mimeType')} {bestStream.get('quality')}", flush=True);
+	logF(f"Found: {bestStream.get('mimeType')} {bestStream.get('quality')}", flush=True);
 
 	# for Topic channels, remove the appeneded " - Topic" from the artist name
 	uploaderName: str = data.get("uploader");

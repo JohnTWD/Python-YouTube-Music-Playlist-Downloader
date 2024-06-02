@@ -2,7 +2,7 @@ from urllib.parse import quote;
 import requests
 
 from constants import getBaseUrl;
-from utils.miscUtils import removeIllegalChar;
+from utils.miscUtils import removeIllegalChar, logF;
 from classes.Playlist import Playlist;
 from classes.PlaylistVideo import PlaylistVideo;
 
@@ -28,7 +28,7 @@ def getPlaylist(playlistId: str) -> PlaylistVideo:
 		nextpage: str = quote(data["nextpage"]);
 		nextUrl:  str = f"{getBaseUrl()}/nextpage/playlists/{playlistId}?nextpage={nextpage}";
 		
-		print(nextUrl)
+		logF(nextUrl)
 
 		response = requests.get(nextUrl);
 		if (response.status_code != 200):

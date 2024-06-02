@@ -1,7 +1,7 @@
 import os;
 import re;
 
-from constants import homeDir;
+from constants import homeDir, getTimeStamp;
 from classes.PlaylistVideo import PlaylistVideo;
 
 
@@ -12,7 +12,7 @@ def removeIllegalChar(sus: str) -> str:
 def makeFolderEnter(folderName: str) -> None:
 	try:
 		os.mkdir(folderName);
-		print(f"successful creation of {folderName}");
+		logF(f"successful creation of {folderName}");
 	except FileExistsError:
 		pass;
 	
@@ -28,11 +28,11 @@ def handleExistingDownloads(plVid: PlaylistVideo) -> bool:
 	fileOutPath: str = os.path.join(os.getcwd(), plVid.title + ".mp3");
 
 	if (os.path.exists(fileInPath)):
-		print(f"Found existing temp file, removing {fileInPath}");
+		logF(f"Found existing temp file, removing {fileInPath}");
 		os.remove(fileInPath);
 
 	if (os.path.exists(fileOutPath)):
-		print(f"File already exists, skipping download ({plVid.index} : {plVid.title})");
+		logF(f"File already exists, skipping download ({plVid.index} : {plVid.title})");
 		return False;
 
 	return True;
@@ -40,11 +40,13 @@ def handleExistingDownloads(plVid: PlaylistVideo) -> bool:
 def makeFolder(folderName: str) -> None:
 	try:
 		os.mkdir(folderName);
-		print(f"successful creation of {folderName}");
+		logF(f"successful creation of {folderName}");
 	except FileExistsError:
 		pass;
 
-def logF(fileName: str, output: str, end: str = '\n', flush: bool = False) -> None:
-	with open(os.path.join(homeDir, "logs", fileName), mode='a', encoding="UTF-8") as txt:
-		print(text, file=txt, end=end, flush=flush);
-		print(text, end=end, flush=flush);
+def logF(output: str, end: str = '\n', flush: bool = False, console: bool = True, fileName: str = getTimeStamp()) -> None:
+
+	with open(os.path.join(homeDir, "logs", fileName + ".txt"), mode='a', encoding="UTF-8") as txt:
+		print(output, file=txt, end=end, flush=flush);
+		if (console):
+			print(output, end=end, flush=flush);

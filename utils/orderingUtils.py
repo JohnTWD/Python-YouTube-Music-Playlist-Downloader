@@ -1,5 +1,7 @@
 import re;
 
+from utils.miscUtils import logF;
+
 __MININDEX: int = 1;
 
 __numberOnlyRegex:   re.Pattern = re.compile(r"\D");
@@ -17,11 +19,11 @@ def isGoodRange(MAXINDEX: int, selection: str) -> bool:
 	intNumSet: set = set(map(int, strNumSet));
 
 	if (__MININDEX > min(intNumSet)):
-		print("The minimum value entered is below the minimum index (1)");
+		logF("The minimum value entered is below the minimum index (1)");
 		return False;
 
 	if (max(intNumSet) > MAXINDEX):
-		print(f"The maximum value entered is more than the number of videos ({MAXINDEX}) in the playlist");
+		logF(f"The maximum value entered is more than the number of videos ({MAXINDEX}) in the playlist");
 		return False;
 
 	return True;
@@ -45,3 +47,5 @@ def getSelectedIndices(selection: str) -> set:
 			indices.add(int(part));
 
 	return indices;
+
+	

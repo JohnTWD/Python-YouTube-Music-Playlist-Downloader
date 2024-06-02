@@ -2,7 +2,7 @@ import os;
 from traceback import format_exc;
 from time import sleep;
 
-from constants import getBaseUrl, setBaseUrl;
+from constants import getBaseUrl, setBaseUrl, getTimeStamp, setTimeStamp;
 from utils.miscUtils import *;
 from utils.playlistParserUtils import *;
 from utils.downloaderUtils import AudioInfo, getBestAudio, downloadAudio;
@@ -20,20 +20,24 @@ def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
 def main():
 	while (True):
 		goHome();
-		print('@' + os.getcwd());
+		makeFolder("logs");
+		logF('@' + os.getcwd());
+
+		setTimeStamp();
+		logF(f"Current time: {getTimeStamp()}");
 
 		customInstance: str = input(f"If the main instance `{getBaseUrl()}` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
 		if (customInstance): # custom instance is not empty
 			setBaseUrl(customInstance);
 
-		print(f"baseUrl={getBaseUrl()}");
+		logF(f"baseUrl={getBaseUrl()}");
 
 		plId: str = input("Enter playlist ID: ");
 		plInfo: Playlist = getPlaylist(plId);
 
-		print("\n\n\n\nPlaylist fetched.");
-		print(f"Playlist name: {plInfo.name}");
-		print(f"Uploader: {plInfo.uploader}");
+		logF(f"\n\n\n\nPlaylist ({plId}) fetched.");
+		logF(f"Playlist name: {plInfo.name}");
+		logF(f"Uploader: {plInfo.uploader}");
 
 		if (input("View playlist items? (y)") == 'y'):
 			plInfo.show();
@@ -44,8 +48,8 @@ def main():
 		while (not isValidSelection):
 			plSize: int = len(plInfo.videos);
 
-			print("Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\" and this may not be necessarilly ordered");
-			selectedRange = input(f"Range: 1-{plSize}\nOr, you can leave this blank to download the entire thing: ");
+			logF("Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\". Ordering is optional\nRange: 1-{plSize}");
+			selectedRange = input(f"Or, you can leave this blank to download the entire thing: ");
 
 			if (selectedRange == ''):
 				shouldDownloadAll = True;
@@ -57,7 +61,7 @@ def main():
 
 		# create output folder and enter it
 		makeFolderEnter("OUTPUT");
-		print('@' + os.getcwd());
+		logF('@' + os.getcwd());
 
 		if (input("Begin download? (y)") != 'y'):
 			continue;
@@ -70,11 +74,11 @@ def main():
 					doDownloadAudioFile(video);
 				except Exception:
 					try:
-						print(f"Shit failed! Retrying download {video.title} from {video.link}; ", end="", flush=True);
+						logF(f"Shit failed! Retrying download {video.title} from {video.link}; ", end="", flush=True);
 						sleep(5);
 						doDownloadAudioFile(video);
 					except Exception:
-						print(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
+						logF(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
 
-		print("\n\nALL DOWNLOADS DONE. READY FOR NEW BATCH\n");
+		logF("\n\nALL DOWNLOADS DONE. READY FOR NEW BATCH\n");
 if (__name__=="__main__"):	main();
