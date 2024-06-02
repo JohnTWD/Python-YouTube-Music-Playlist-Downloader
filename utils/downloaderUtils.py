@@ -20,7 +20,7 @@ def __convertFile(audioInfo: AudioInfo) -> None:
 	fileOutPath: str = os.path.join(os.getcwd(), audioInfo.title + ".mp3");
 	
 	# the actual conversion
-	command: str = ["ffmpeg", "-i" ,  fileInPath, "-metadata", f"artist={audioInfo.artist}", fileOutPath];
+	command: str = ["ffmpeg", "-loglevel", '0', "-i",  fileInPath, "-metadata", f"artist={audioInfo.artist}", fileOutPath];
 	call(command);
 
 	if (os.path.exists(fileOutPath)):
@@ -52,7 +52,7 @@ def downloadAudio(audioInfo: AudioInfo) -> None:
 
 def getBestAudio(idVideo: str) -> AudioInfo:
 	allStreams: str = f"{getBaseUrl()}/streams/{idVideo}";
-	print("Attempting to get highest quality audio... ", end='', flush=True);
+	print("\nAttempting to get highest quality audio... ", end='', flush=True);
 
 	response: requests.Response = requests.get(allStreams);
 	if (response.status_code != 200):
@@ -67,9 +67,14 @@ def getBestAudio(idVideo: str) -> AudioInfo:
 	# Find the audio stream with the highest bitrate
 	bestStream = max(audioStreams, key=lambda stream: stream.get("bitrate", 0));
 	print(f"Found: {bestStream.get('mimeType')} {bestStream.get('quality')}", flush=True);
-  
+
+	# for Topic channels, remove the appeneded " - Topic" from the artist name
+	uploaderName: str = data.get("uploader");
+	if (uploaderName[-8:] == " - Topic"):
+		uploaderName = uploaderName[:8];
+
 	return AudioInfo(
 		bestStream.get("url"),
 		__removeIllegalChar(data.get("title")), 
-		__removeIllegalChar(data.get("uploader"))
+		__removeIllegalChar(uploaderName)
 	);

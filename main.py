@@ -1,6 +1,6 @@
 import os;
-from subprocess import call;
 from traceback import format_exc;
+from time import sleep;
 
 from constants import getBaseUrl, setBaseUrl;
 from utils.miscUtils import *;
@@ -46,6 +46,7 @@ def main():
 		except Exception:
 			try:
 				print(f"Shit failed! Retrying downloading {video.title} from {video.link}; ", end="", flush=True);
+				sleep(5);
 				doDownloadAudioFile(video.link);
 			except Exception:
 				print(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
