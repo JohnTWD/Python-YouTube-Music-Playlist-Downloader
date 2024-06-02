@@ -12,8 +12,8 @@ class AudioInfo:
 	title:  str;
 	artist: str;
 
-def __removeIllegalChar(string: str) -> str:
-	return re.sub(r"[\\/*?:\"<>|]", '', str)
+def __removeIllegalChar(sus: str) -> str:
+	return re.sub(r"[\\/*?:\"<>|]", '', sus)
 
 def __convertFile(audioInfo: AudioInfo) -> None:
 	fileInPath:  str = os.path.join(os.getcwd(), audioInfo.title + ".temp");
@@ -32,7 +32,7 @@ def __convertFile(audioInfo: AudioInfo) -> None:
 
 def downloadAudio(audioInfo: AudioInfo) -> None:
 	print("Beginning download...", end="", flush=True);
-	filePath: str = os.path.join(os.getcwd(), audioInfo.title, + ".temp");
+	filePath: str = os.path.join(os.getcwd(), audioInfo.title + ".temp");
 
 	with requests.get(audioInfo.url, stream=True) as r:
 		r.raise_for_status();

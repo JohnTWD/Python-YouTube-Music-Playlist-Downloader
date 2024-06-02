@@ -1,14 +1,11 @@
-import requests;
 import os;
 from subprocess import call;
 from traceback import format_exc;
 
-from constants import getBaseUrl;
-from constants import setBaseUrl;
+from constants import getBaseUrl, setBaseUrl;
 from utils.miscUtils import *;
 from utils.playlistParserUtils import *;
-from utils.downloaderUtils import AudioInfo, getBestAudio;
-from utils.downloaderUtils import downloadAudio;
+from utils.downloaderUtils import AudioInfo, getBestAudio, downloadAudio;
 
 def doDownloadAudioFile(idVideo: str) -> None:
 	bestAudio: AudioInfo = getBestAudio(idVideo);
@@ -42,6 +39,7 @@ def main():
 		return;
 	
 	for video in plInfo.videos:
+		assert isinstance(video, PlaylistVideo);
 		try:
 			doDownloadAudioFile(video);
 		except Exception:
