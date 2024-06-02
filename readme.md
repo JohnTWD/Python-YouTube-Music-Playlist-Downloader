@@ -25,9 +25,9 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 - [X] Stop the damn thing from closing when downloads are done (easiest task, but I will do this next time)
 - [X] Allow user to set range to download using the index (instead of downloading the whole playlist from the start)
 - [X] Add logging of all output to a text file
-- - [ ] Also make error logs a separate file
+- - [X] Also make error logs a separate file
 - [ ] Threading. Yes.
-- [ ] Use Inviduous API instead, if Piped is still constantly down
+- ~~[ ] Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API  we are using works pretty well as off this commit
 
 ```
 *%%%%%%%%%%###############%%%@@@@@@@+   ..          -@@@@@@@@@@@@@@@@.   ..          

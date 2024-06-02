@@ -44,7 +44,13 @@ def makeFolder(folderName: str) -> None:
 	except FileExistsError:
 		pass;
 
-def logF(output: str, end: str = '\n', flush: bool = False, console: bool = True, fileName: str = getTimeStamp()) -> None:
+def logF(
+		output:   str, 
+		end:      str = '\n', 
+		flush:    bool = False, 
+		console:  bool = True, 
+		fileName: str = getTimeStamp()
+	) -> None:
 
 	with open(os.path.join(homeDir, "logs", fileName + ".txt"), mode='a', encoding="UTF-8") as txt:
 		print(output, file=txt, end=end, flush=flush);

@@ -16,6 +16,17 @@ def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
 		bestAudio: AudioInfo = getBestAudio(playlistVideo);
 		downloadAudio(bestAudio);
 
+def errlog(problemObj: PlaylistVideo, reason: str, plId: str) -> None:
+	fileName: str = "FAILS" + getTimeStamp();
+
+	if (not os.path.exists(os.path.join(homeDir, "logs", fileName + ".txt"))): # error file does not exist yet
+		logF(f"ERROR LOG OF PLAYLIST: {plId}", console=False, fileName=fileName); # this is so we create a new file with playlist ID as header at the top
+
+	logF(
+		f"{problemObj.index}:    {problemObj.title}    {reason}    @https://www.youtube.com/watch?v={problemObj.link}", 
+		fileName = fileName,
+		console = False, 
+	);
 
 def main():
 	while (True):
@@ -48,7 +59,7 @@ def main():
 		while (not isValidSelection):
 			plSize: int = len(plInfo.videos);
 
-			logF("Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\". Ordering is optional\nRange: 1-{plSize}");
+			logF(f"Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\". Ordering is optional\nRange: 1-{plSize}");
 			selectedRange = input(f"Or, you can leave this blank to download the entire thing: ");
 
 			if (selectedRange == ''):
@@ -77,8 +88,9 @@ def main():
 						logF(f"Shit failed! Retrying download {video.title} from {video.link}; ", end="", flush=True);
 						sleep(5);
 						doDownloadAudioFile(video);
-					except Exception:
+					except Exception as e:
 						logF(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
+						errlog(video, e, plId);
 
 		logF("\n\nALL DOWNLOADS DONE. READY FOR NEW BATCH\n");
 if (__name__=="__main__"):	main();
