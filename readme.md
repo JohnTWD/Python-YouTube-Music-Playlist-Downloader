@@ -27,7 +27,7 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 - [X] Add logging of all output to a text file
 - - [X] Also make error logs a separate file
 - [ ] Threading. Yes.
-- ~~[ ] Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API  we are using works pretty well as off this commit
+- [ ] ~~Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API  we are using works pretty well as off this commit
 
 ```
 *%%%%%%%%%%###############%%%@@@@@@@+   ..          -@@@@@@@@@@@@@@@@.   ..          
