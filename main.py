@@ -60,7 +60,7 @@ def main():
                 print('@' + os.getcwd());
 
                 if (input("Begin download? (y)") != 'y'):
-                	return;
+                	continue;
                        
                 for video in plInfo.videos:
                 	assert isinstance(video, PlaylistVideo);
