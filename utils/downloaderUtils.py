@@ -48,7 +48,10 @@ def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
 	logF(f"\n{playlistVideo.index} {playlistVideo.title} | Attempting to get highest quality audio... ", end='', flush=True);
 
 	response: requests.Response = requests.get(allStreams);
-	if (response.status_code != 200):
+
+	if (response.status_code == 500):
+		raise Exception(response.json().get("message"));
+	elif (response.status_code != 200):
 		raise Exception("Failed to fetch video streams");
   
 	data: dict = response.json();
