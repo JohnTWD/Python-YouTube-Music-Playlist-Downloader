@@ -25,6 +25,7 @@ def main():
 	plId: str = input("Enter playlist ID: ");
 	plInfo: Playlist = getPlaylist(plId);
 	
+	print("\n\n\n\nPlaylist fetched.");
 	print(f"Playlist name: {plInfo.name}");
 	print(f"Uploader: {plInfo.uploader}");
 	
@@ -41,7 +42,7 @@ def main():
 	for video in plInfo.videos:
 		assert isinstance(video, PlaylistVideo);
 		try:
-			doDownloadAudioFile(video);
+			doDownloadAudioFile(video.link);
 		except Exception:
 			try:
 				print(f"Shit failed! Retrying downloading {video.title} from {video.link}; ", end="", flush=True);
