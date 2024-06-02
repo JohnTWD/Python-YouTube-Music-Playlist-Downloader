@@ -53,7 +53,7 @@ def downloadAudio(audioInfo: AudioInfo) -> None:
 
 def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
 	allStreams: str = f"{getBaseUrl()}/streams/{playlistVideo.link}"
-	print(f"{playlistVideo.index} {playlistVideo.title} | \nAttempting to get highest quality audio... ", end='', flush=True);
+	print(f"\n{playlistVideo.index} {playlistVideo.title} | Attempting to get highest quality audio... ", end='', flush=True);
 
 	response: requests.Response = requests.get(allStreams);
 	if (response.status_code != 200):
