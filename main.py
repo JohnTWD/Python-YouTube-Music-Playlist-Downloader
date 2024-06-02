@@ -7,9 +7,10 @@ from utils.miscUtils import *;
 from utils.playlistParserUtils import *;
 from utils.downloaderUtils import AudioInfo, getBestAudio, downloadAudio;
 
-def doDownloadAudioFile(idVideo: str) -> None:
-	bestAudio: AudioInfo = getBestAudio(idVideo);
-	downloadAudio(bestAudio);
+def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
+	if (handleExistingDownloads(playlistVideo)):
+		bestAudio: AudioInfo = getBestAudio(playlistVideo);
+		downloadAudio(bestAudio);
 
 
 def main():
@@ -42,7 +43,7 @@ def main():
 	for video in plInfo.videos:
 		assert isinstance(video, PlaylistVideo);
 		try:
-			doDownloadAudioFile(video.link);
+			doDownloadAudioFile(video);
 		except Exception:
 			try:
 				print(f"Shit failed! Retrying downloading {video.title} from {video.link}; ", end="", flush=True);

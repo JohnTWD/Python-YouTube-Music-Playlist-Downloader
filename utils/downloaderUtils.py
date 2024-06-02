@@ -4,7 +4,8 @@ import re;
 from subprocess import call;
 from dataclasses import dataclass;
 
-from constants import getBaseUrl;
+from constants import getBaseUrl
+from utils.playlistParserUtils import PlaylistVideo;
 
 @dataclass
 class AudioInfo:
@@ -46,13 +47,13 @@ def downloadAudio(audioInfo: AudioInfo) -> None:
 				f.write(chunk);
 				i += 1;
 
-	print(f"Audio downloaded successfully: @{filePath} \nBeginning conversion...", end='', flush=True);
+	print("Audio downloaded successfully; Beginning conversion...", end='', flush=True);
 	__convertFile(audioInfo);
 
 
-def getBestAudio(idVideo: str) -> AudioInfo:
-	allStreams: str = f"{getBaseUrl()}/streams/{idVideo}";
-	print("\nAttempting to get highest quality audio... ", end='', flush=True);
+def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
+	allStreams: str = f"{getBaseUrl()}/streams/{playlistVideo.link}"
+	print(f"{playlistVideo.index} {playlistVideo.title} | \nAttempting to get highest quality audio... ", end='', flush=True);
 
 	response: requests.Response = requests.get(allStreams);
 	if (response.status_code != 200):
@@ -75,6 +76,6 @@ def getBestAudio(idVideo: str) -> AudioInfo:
 
 	return AudioInfo(
 		bestStream.get("url"),
-		__removeIllegalChar(data.get("title")), 
+		__removeIllegalChar(playlistVideo.title), 
 		__removeIllegalChar(uploaderName)
 	);
