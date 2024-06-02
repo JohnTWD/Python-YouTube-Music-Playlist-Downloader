@@ -18,60 +18,63 @@ def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
 
 
 def main():
-	goHome();
-	print('@' + os.getcwd());
-	
-	customInstance: str = input(f"If the main instance `{getBaseUrl()}` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
-	if (customInstance): # custom instance is not empty
-		setBaseUrl(customInstance);
-	
-	print(f"baseUrl={getBaseUrl()}");
-	
-	plId: str = input("Enter playlist ID: ");
-	plInfo: Playlist = getPlaylist(plId);
-	
-	print("\n\n\n\nPlaylist fetched.");
-	print(f"Playlist name: {plInfo.name}");
-	print(f"Uploader: {plInfo.uploader}");
-	
-	if (input("View playlist items? (y)") == 'y'):
-		plInfo.show();
+        while (True):
+                goHome();
+                print('@' + os.getcwd());
+                       
+                customInstance: str = input(f"If the main instance `{getBaseUrl()}` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
+                if (customInstance): # custom instance is not empty
+                	setBaseUrl(customInstance);
+                       
+                print(f"baseUrl={getBaseUrl()}");
+                       
+                plId: str = input("Enter playlist ID: ");
+                plInfo: Playlist = getPlaylist(plId);
+                       
+                print("\n\n\n\nPlaylist fetched.");
+                print(f"Playlist name: {plInfo.name}");
+                print(f"Uploader: {plInfo.uploader}");
+                       
+                if (input("View playlist items? (y)") == 'y'):
+                	plInfo.show();
 
-	isValidSelection:  bool = False;
-	shouldDownloadAll: bool = False;
-	selectedRange: str;
-	while (not isValidSelection):
-		plSize: int = len(plInfo.videos);
+                isValidSelection:  bool = False;
+                shouldDownloadAll: bool = False;
+                selectedRange: str;
+                while (not isValidSelection):
+                	plSize: int = len(plInfo.videos);
 
-		print("Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\" and this may not be necessarilly ordered");
-		selectedRange = input(f"Range: 1-{plSize}\nOr, you can leave this blank to download the entire thing: ");
+                	print("Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\" and this may not be necessarilly ordered");
+                	selectedRange = input(f"Range: 1-{plSize}\nOr, you can leave this blank to download the entire thing: ");
 
-		if (selectedRange == ''):
-			shouldDownloadAll = True;
-			isValidSelection = True;
-		else:
-			isValidSelection = isGoodRange(plSize, selectedRange);
-	dlIndex: set = getSelectedIndices(selectedRange);
+                	if (selectedRange == ''):
+                		shouldDownloadAll = True;
+                		isValidSelection = True;
+                	else:
+                		isValidSelection = isGoodRange(plSize, selectedRange);
+                dlIndex: set = getSelectedIndices(selectedRange);
 
-	
-	# create output folder and enter it
-	makeFolderEnter("OUTPUT");
-	print('@' + os.getcwd());
+                       
+                # create output folder and enter it
+                makeFolderEnter("OUTPUT");
+                print('@' + os.getcwd());
 
-	if (input("Begin download? (y)") != 'y'):
-		return;
-	
-	for video in plInfo.videos:
-		assert isinstance(video, PlaylistVideo);
+                if (input("Begin download? (y)") != 'y'):
+                	return;
+                       
+                for video in plInfo.videos:
+                	assert isinstance(video, PlaylistVideo);
 
-		if (shouldDownloadAll or (video.index in dlIndex)):
-			try:
-				doDownloadAudioFile(video);
-			except Exception:
-				try:
-					print(f"Shit failed! Retrying download {video.title} from {video.link}; ", end="", flush=True);
-					sleep(5);
-					doDownloadAudioFile(video);
-				except Exception:
-					print(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
+                	if (shouldDownloadAll or (video.index in dlIndex)):
+                		try:
+                			doDownloadAudioFile(video);
+                		except Exception:
+                			try:
+                				print(f"Shit failed! Retrying download {video.title} from {video.link}; ", end="", flush=True);
+                				sleep(5);
+                				doDownloadAudioFile(video);
+                			except Exception:
+                				print(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
+
+                print("\n\nALL DOWNLOADS DONE. READY FOR NEW BATCH\n");
 if (__name__=="__main__"):	main();

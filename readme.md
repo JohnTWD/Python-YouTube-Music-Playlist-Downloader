@@ -22,7 +22,7 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 
 ### TODO LIST
 - [X] Do the todo list
-- [ ] Stop the damn thing from closing when downloads are done (easiest task, but I will do this next time)
+- [X] Stop the damn thing from closing when downloads are done (easiest task, but I will do this next time)
 - [X] Allow user to set range to download using the index (instead of downloading the whole playlist from the start)
 - [ ] Add logging of all output to a text file
 - - [ ] Also make error logs a separate file
