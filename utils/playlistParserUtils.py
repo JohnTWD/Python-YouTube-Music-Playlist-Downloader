@@ -1,30 +1,14 @@
-from dataclasses import dataclass;
 from urllib.parse import quote;
-import requests;
+import requests
 
 from constants import getBaseUrl;
+from utils.miscUtils import removeIllegalChar;
+from classes.Playlist import Playlist;
+from classes.PlaylistVideo import PlaylistVideo;
 
-@dataclass
-class PlaylistVideo:
-	index: int;
-	title: str;
-	link:  str;
-
-@dataclass
-class Playlist:
-	name:     str;
-	uploader: str;
-	videos:   list; # PlaylistVideos
-
-	def show(self) -> None:
-		print("index    -   title   -   url");
-		for video in self.videos:
-			print(f"{video.index}   {video.title}   {video.link}");
-#    def addVideoEntry(self, newEntry: dict) -> None:
-#        self.videos.update(newEntry);
 
 # Playlist parser
-def getPlaylist(playlistId: str) -> Playlist:
+def getPlaylist(playlistId: str) -> PlaylistVideo:
 	playlistUrl: str = f"{getBaseUrl()}/playlists/{playlistId}";
 	videos: list = [];
 
@@ -60,7 +44,7 @@ def getPlaylist(playlistId: str) -> Playlist:
 		allVideos.append(
 			PlaylistVideo(
 				i, 
-				video["title"], 
+				removeIllegalChar(video["title"]), 
 				video["url"][9:]
 			)
 		);

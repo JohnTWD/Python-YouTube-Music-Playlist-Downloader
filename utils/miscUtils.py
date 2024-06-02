@@ -1,6 +1,13 @@
 import os;
+import re;
+
 from constants import homeDir;
-from utils.playlistParserUtils import PlaylistVideo;
+from classes.PlaylistVideo import PlaylistVideo;
+
+
+__illegalCharRegex: re.Pattern = re.compile(r"[\/*?:\"<>|]");
+def removeIllegalChar(sus: str) -> str:
+	return re.sub(__illegalCharRegex, '', sus);
 
 def makeFolderEnter(folderName: str) -> None:
 	try:

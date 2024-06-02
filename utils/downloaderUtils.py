@@ -1,20 +1,12 @@
 import requests;
 import os;
-import re;
 from subprocess import call;
-from dataclasses import dataclass;
 
 from constants import getBaseUrl
-from utils.playlistParserUtils import PlaylistVideo;
+from utils.miscUtils import removeIllegalChar;
+from classes.AudioInfo import AudioInfo;
+from classes.PlaylistVideo import PlaylistVideo;
 
-@dataclass
-class AudioInfo:
-	url:    str;
-	title:  str;
-	artist: str;
-
-def __removeIllegalChar(sus: str) -> str:
-	return re.sub(r"[\\/*?:\"<>|]", '', sus)
 
 def __convertFile(audioInfo: AudioInfo) -> None:
 	fileInPath:  str = os.path.join(os.getcwd(), audioInfo.title + ".temp");
@@ -74,8 +66,8 @@ def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
 	if (uploaderName[-8:] == " - Topic"):
 		uploaderName = uploaderName[:8];
 
-	return AudioInfo(
+	return AudioInfo.fromPlaylistVideo(
+		playlistVideo,
 		bestStream.get("url"),
-		__removeIllegalChar(playlistVideo.title), 
-		__removeIllegalChar(uploaderName)
+		removeIllegalChar(uploaderName)
 	);
