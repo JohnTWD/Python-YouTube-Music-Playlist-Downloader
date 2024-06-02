@@ -38,11 +38,11 @@ def handleExistingDownloads(plVid: PlaylistVideo) -> bool:
 	return True;
 
 def makeFolder(folderName: str) -> None:
-  	try:
-    		os.mkdir(folderName);
-    		print(f"successful creation of {folderName}");
-  	except FileExistsError:
-    		pass;
+	try:
+		os.mkdir(folderName);
+		print(f"successful creation of {folderName}");
+	except FileExistsError:
+		pass;
 
 def logF(fileName: str, output: str, end: str = '\n', flush: bool = False) -> None:
 	with open(os.path.join(homeDir, "logs", fileName), mode='a', encoding="UTF-8") as txt:
