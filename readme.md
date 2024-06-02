@@ -78,7 +78,7 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 .  ..                    .   .....                                        ..    *###*
 
 ```
-© JohnTWD Technologies™ LLC. All rights reserverd®
+© JohnTWD Technologies™ LLC. All rights reserved®
 
 Jk...you are free too do whatever you want with this. Though of course, credit me as the original author :^)
 
