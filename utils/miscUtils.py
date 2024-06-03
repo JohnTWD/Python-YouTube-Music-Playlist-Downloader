@@ -37,10 +37,12 @@ def handleExistingDownloads(plVid: PlaylistVideo) -> bool:
 
 	return True;
 
-def makeFolder(folderName: str) -> None:
+def makeFolder(folderName: str, shutUp: bool = False) -> None:
 	try:
 		os.mkdir(folderName);
-		logF(f"successful creation of {folderName}");
+
+		if (not shutUp):
+			logF(f"successful creation of {folderName}");
 	except FileExistsError:
 		pass;
 
@@ -49,10 +51,10 @@ def logF(
 		end:      str = '\n', 
 		flush:    bool = False, 
 		console:  bool = True, 
-		fileName: str = getTimeStamp()
+		fileName: str = "console"
 	) -> None:
 
-	with open(os.path.join(homeDir, "logs", fileName + ".txt"), mode='a', encoding="UTF-8") as txt:
+	with open(os.path.join(homeDir, "logs", getTimeStamp(), fileName + ".txt"), mode='a', encoding="UTF-8") as txt:
 		print(output, file=txt, end=end, flush=flush);
 		if (console):
 			print(output, end=end, flush=flush);

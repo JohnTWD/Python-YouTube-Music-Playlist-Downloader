@@ -17,24 +17,29 @@ def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
 		downloadAudio(bestAudio);
 
 def errlog(problemObj: PlaylistVideo, reason: str, plId: str) -> None:
-	fileName: str = "FAILS" + getTimeStamp();
-
-	if (not os.path.exists(os.path.join(homeDir, "logs", fileName + ".txt"))): # error file does not exist yet
-		logF(f"ERROR LOG OF PLAYLIST: {plId}", console=False, fileName=fileName); # this is so we create a new file with playlist ID as header at the top
+	if (not os.path.exists(os.path.join(homeDir, "logs", getTimeStamp(), "FAILLOGS.txt"))): # error file does not exist yet
+		logF(f"ERROR LOG OF PLAYLIST: {plId}", console=False, fileName="FAILLOGS"); # this is so we create a new file with playlist ID as header at the top
 
 	logF(
 		f"{problemObj.index}:    {problemObj.title}    {reason}    @https://www.youtube.com/watch?v={problemObj.link}", 
-		fileName = fileName,
+		fileName = "FAILLOGS",
 		console = False, 
 	);
 
+def init() -> None:
+	setTimeStamp();
+	goHome();
+
+	makeFolder("logs", shutUp=True);
+	makeFolder(os.path.join("logs", getTimeStamp()));
+
+
 def main():
 	while (True):
-		goHome();
-		makeFolder("logs");
+		init();
+
 		logF('@' + os.getcwd());
 
-		setTimeStamp();
 		logF(f"Current time: {getTimeStamp()}");
 
 		customInstance: str = input(f"If the main instance `{getBaseUrl()}` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
