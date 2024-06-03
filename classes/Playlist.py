@@ -20,8 +20,13 @@ class Playlist:
 		cache.close();
 
 		return info;
-			
 
+	@classmethod
+	def loadCache(cls, videoCachePath: str) -> None:
+		info: list = cls.getDetails(videoCachePath)
+		return cls(info[1], info[2], videoCachePath);
+				 # name     uploader
+			
 	def eachInCache(self) -> PlaylistVideo:
 		beginRead: bool = False;
 

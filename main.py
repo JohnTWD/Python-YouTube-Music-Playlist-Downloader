@@ -48,8 +48,20 @@ def main():
 
 		logF(f"baseUrl={getBaseUrl()}");
 
+		logF(
+			"\nEnter playlist. You can choose to load a playlist from a cache or the ID of the playlist" +
+			"\nPlaylist ID is at ...youtube.com/playlist?list=PLgyjA..." +
+			"\nCopy it from the back part --------------------^^^^^^^^^" +
+			"\nAlternatively, provide the cache file. Enter the WHOLE filepath of the cache file"
+		);
+
 		plId: str = input("Enter playlist ID: ");
-		plInfo: Playlist = getPlaylist(plId);
+
+		plInfo: Playlist = None;
+		if (os.path.exists(plId)):	# assume its a cache
+			plInfo = Playlist.loadCache(plId);
+		else:
+			plInfo = getPlaylist(plId); # else its probably a playlistId
 
 		plDetails: list = Playlist.getDetails(plInfo.videoCache);
 
