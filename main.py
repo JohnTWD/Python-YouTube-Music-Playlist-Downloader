@@ -51,9 +51,13 @@ def main():
 		plId: str = input("Enter playlist ID: ");
 		plInfo: Playlist = getPlaylist(plId);
 
-		logF(f"\n\n\n\nPlaylist ({plId}) fetched.");
-		logF(f"Playlist name: {plInfo.name}");
-		logF(f"Uploader: {plInfo.uploader}");
+		plDetails: list = Playlist.getDetails(plInfo.videoCache);
+
+		logF(f"\n\n\n\nPlaylist ({plDetails[0]}) fetched.");
+		logF(f"Playlist name: {plDetails[1]}");
+		logF(f"Uploader: {plDetails[2]}");
+
+		del plDetails;
 
 		if (input("View playlist items? (y)") == 'y'):
 			plInfo.show();
@@ -62,7 +66,7 @@ def main():
 		shouldDownloadAll: bool = False;
 		selectedRange: str;
 		while (not isValidSelection):
-			plSize: int = len(plInfo.videos);
+			plSize: int = plInfo.getCount();
 
 			logF(f"Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\". Ordering is optional\nRange: 1-{plSize}");
 			selectedRange = input(f"Or, you can leave this blank to download the entire thing: ");
@@ -82,7 +86,7 @@ def main():
 		if (input("Begin download? (y)") != 'y'):
 			continue;
 
-		for video in plInfo.videos:
+		for video in plInfo.eachInCache():
 			assert isinstance(video, PlaylistVideo);
 
 			if (shouldDownloadAll or (video.index in dlIndex)):
