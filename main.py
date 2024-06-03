@@ -90,7 +90,6 @@ def main():
 				isValidSelection = isGoodRange(plSize, selectedRange);
 		dlIndex: set = getSelectedIndices(selectedRange);
 
-
 		# create output folder and enter it
 		makeFolderEnter("OUTPUT");
 		logF('@' + os.getcwd());
