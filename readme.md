@@ -7,10 +7,10 @@ Hello guys this is a simple youtube playlist downloader by me.
 #### PipedAPI base URLs historically used by this Projekt:
 
 - ~~`https://pipedapi.kavin.rocks`~~   -> Constantly down
-- ~~`https://pipedapi.syncpundit.io`~~` -> As of this commit, outputs this error on streams: "Watch on the latest version of YouTube."
+- ~~`https://pipedapi.syncpundit.io`~~ -> As of this commit, outputs this error on streams: "Watch on the latest version of YouTube."
 - `https://pipedapi-libre.kavin.rocks` [Current default]
 
-// Or you can just take a look at the [instance list](https://github.com/TeamPiped/Piped/wiki/Instances), but a lot of the URLs there are not exactly working very well
+> // Or you can just take a look at the [instance list](https://github.com/TeamPiped/Piped/wiki/Instances), but a lot of the URLs there are not exactly working very well
 
 #### How to use:
 1. Download [`FFMPEG`](https://ffmpeg.org/download.html)
