@@ -4,13 +4,11 @@
 
 Hello guys this is a simple youtube playlist downloader by me.
 
-~~It currently (as of 2024/6/1) sucks a bit because the API I use for downloading stuff is currently facing some kind of outage.~~
-
-~~**Don't expect it to work too well right now**~~
-
-#### Update:
-At the time this commit is pushed, I have found a working alternative PipedAPI instance. Use the following baseUrl for now:
-> https://pipedapi.syncpundit.io
+#### Alternative PipedAPI base URLs historically used by this Projekt:
+> ~~https://pipedapi.kavin.rocks~~   -> Constantly down
+> ~~https://pipedapi.syncpundit.io~~ -> As of this commit, outputs this error on streams: "Watch on the latest version of YouTube."
+> https://pipedapi-libre.kavin.rocks [Current default]
+// Or you can just take a look at the [instance list](https://github.com/TeamPiped/Piped/wiki/Instances), but a lot of the URLs there are not exactly working very well
 
 #### How to use:
 1. Download [`FFMPEG`](https://ffmpeg.org/download.html)
@@ -28,7 +26,7 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 - - [X] Also make error logs a separate file 
 - [ ] See if I can have a static library for mp3 conversion
 - [ ] Threading. Yes.
-- [ ] ~~Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API  we are using works pretty well as off this commit
+- [ ] ~~Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API we are using works pretty well as of this commit
 
 ```
 *%%%%%%%%%%###############%%%@@@@@@@+   ..          -@@@@@@@@@@@@@@@@.   ..          
