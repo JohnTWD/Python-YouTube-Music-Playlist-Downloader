@@ -23,7 +23,7 @@ class Playlist:
 
 	@classmethod
 	def loadCache(cls, videoCachePath: str) -> None:
-		info: list = cls.getDetails(videoCachePath)
+		info: list = cls.getDetails(videoCachePath);
 		return cls(info[1], info[2], videoCachePath);
 				 # name     uploader
 			

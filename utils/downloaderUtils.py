@@ -17,7 +17,7 @@ def __convertFile(audioInfo: AudioInfo) -> None:
 	call(command);
 
 	if (os.path.exists(fileOutPath)):
-		os.remove(fileInPath)   # get rid of the original file
+		os.remove(fileInPath);   # get rid of the original file
 		logF(f'Converted: {fileOutPath} to MP3');
 	else:
 		raise Exception("Something went wrong with conversion. Leaving temp file alone...");
@@ -44,7 +44,7 @@ def downloadAudio(audioInfo: AudioInfo) -> None:
 
 
 def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
-	allStreams: str = f"{getBaseUrl()}/streams/{playlistVideo.link}"
+	allStreams: str = f"{getBaseUrl()}/streams/{playlistVideo.link}";
 	logF(f"\n{playlistVideo.index} {playlistVideo.title} | Attempting to get highest quality audio... ", end='', flush=True);
 
 	response: requests.Response = requests.get(allStreams);

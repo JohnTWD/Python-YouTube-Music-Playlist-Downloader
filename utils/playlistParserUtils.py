@@ -46,7 +46,7 @@ def getPlaylist(playlistId: str) -> PlaylistVideo:
 		nextpage: str = quote(data["nextpage"]);
 		nextUrl:  str = f"{getBaseUrl()}/nextpage/playlists/{playlistId}?nextpage={nextpage}";
 		
-		logF(nextUrl)
+		logF(nextUrl);
 
 		response = requests.get(nextUrl);
 		if (response.status_code != 200):
