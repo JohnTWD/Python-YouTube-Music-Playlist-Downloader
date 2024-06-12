@@ -67,7 +67,7 @@ def getBestAudio(playlistVideo: PlaylistVideo) -> AudioInfo:
 	# for Topic channels, remove the appeneded " - Topic" from the artist name
 	uploaderName: str = data.get("uploader");
 	if (uploaderName[-8:] == " - Topic"):
-		uploaderName = uploaderName[:8];
+		uploaderName = uploaderName[:-8];
 
 	return AudioInfo.fromPlaylistVideo(
 		playlistVideo,
