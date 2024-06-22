@@ -1,4 +1,5 @@
 import os;
+import argparse;
 from traceback import format_exc;
 from time import sleep;
 
@@ -10,6 +11,7 @@ from utils.orderingUtils import *;
 from classes.PlaylistVideo import PlaylistVideo;
 from classes.AudioInfo import AudioInfo;
 from classes.Playlist import Playlist;
+from widgets.comparepldata import comparePlaylistData;
 
 def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
 	if (handleExistingDownloads(playlistVideo)):
@@ -33,8 +35,18 @@ def init() -> None:
 	makeFolder("logs", shutUp=True);
 	makeFolder(os.path.join("logs", getTimeStamp()));
 
+parser: argparse.ArgumentParser = argparse.ArgumentParser();
+parser.add_argument('--comparepldata', nargs=2, help='Compare playlist caches to see differences', metavar=('filepath1', 'filepath2'));
 
+args = parser.parse_args();
 def main():
+	os.system("color");
+	
+	if (args.comparepldata):
+		filePath1, filePath2= args.comparepldata;
+		comparePlaylistData(filePath1, filePath2);
+		return;
+
 	while (True):
 		init();
 

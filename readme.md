@@ -26,7 +26,7 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 - [X] Allow user to set range to download using the index (instead of downloading the whole playlist from the start)
 - [X] Add logging of all output to a text file
 - - [X] Also make error logs a separate file 
-- [ ] See if I can have a static library for mp3 conversion
+- [ ] Add colors to text
 - [ ] Threading. Yes.
 - [ ] ~~Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API we are using works pretty well as of this commit
 
