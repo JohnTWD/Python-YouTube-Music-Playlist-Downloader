@@ -3,7 +3,7 @@ import argparse;
 from traceback import format_exc;
 from time import sleep;
 
-from constants import getBaseUrl, setBaseUrl, getTimeStamp, setTimeStamp;
+from constants import Bcolors, getBaseUrl, setBaseUrl, getTimeStamp, setTimeStamp;
 from utils.miscUtils import *;
 from utils.playlistParserUtils import *;
 from utils.downloaderUtils import AudioInfo, getBestAudio, downloadAudio;
@@ -11,7 +11,7 @@ from utils.orderingUtils import *;
 from classes.PlaylistVideo import PlaylistVideo;
 from classes.AudioInfo import AudioInfo;
 from classes.Playlist import Playlist;
-from widgets.comparepldata import comparePlaylistData;
+from widgets.playlistComparison import comparePlaylistData;
 
 def doDownloadAudioFile(playlistVideo: PlaylistVideo) -> None:
 	if (handleExistingDownloads(playlistVideo)):
@@ -36,7 +36,8 @@ def init() -> None:
 	makeFolder(os.path.join("logs", getTimeStamp()));
 
 parser: argparse.ArgumentParser = argparse.ArgumentParser();
-parser.add_argument('--comparepldata', nargs=2, help='Compare playlist caches to see differences', metavar=('filepath1', 'filepath2'));
+parser.add_argument("-cmp","--comparepldata", nargs=2, help="Compare playlist caches to see differences", metavar=("filepath1", "filepath2"));
+parser.add_argument("-ck", "--checkplchanges", nargs=1, help="Check Playlist changes by ID *Stores playlist data under pldata*", metavar=("ID"));
 
 args = parser.parse_args();
 def main():
@@ -45,6 +46,36 @@ def main():
 	if (args.comparepldata):
 		filePath1, filePath2= args.comparepldata;
 		comparePlaylistData(filePath1, filePath2);
+		return;
+
+	if (args.checkplchanges):
+		makeFolder("pldata");
+
+		pldataFolder: str = os.path.join(homeDir, "pldata");
+
+		plID: str = args.checkplchanges[0];
+
+		oldPlPath: str = os.path.join(pldataFolder, plID + ".txt");
+		newPlPath: str = os.path.join(pldataFolder, plID + "+new.txt")
+
+		if (os.path.exists(newPlPath)): # get rid of any excess +new caches before we do any kind of processing
+			os.remove(newPlPath);
+		
+		if (not os.path.exists(oldPlPath)):
+			print(Bcolors.WARNING +  "Playlist Cache file has yet to exist! Making a new one..." + Bcolors.ENDC);
+			newPl: Playlist = getPlaylist(plID, plID, pldataFolder);
+			print(Bcolors.BOLD + Bcolors.OKGREEN + f"\nDone creating playlist cache file for <{newPl.name}> by <{newPl.uploader}>" + Bcolors.ENDC);
+			return;
+
+		print(Bcolors.HEADER + Bcolors.OKBLUE + f"\nMaking new playlist for comparison" + Bcolors.ENDC);
+		getPlaylist(plID, plID + "+new", pldataFolder); # make a new playlist for comparison
+		
+		comparePlaylistData(oldPlPath, newPlPath);
+
+		if (input(Bcolors.WARNING + "Replace old playlist with new one?(y)" + Bcolors.ENDC) == 'y'):
+			os.remove(oldPlPath);
+			os.rename(newPlPath, oldPlPath);
+
 		return;
 
 	while (True):

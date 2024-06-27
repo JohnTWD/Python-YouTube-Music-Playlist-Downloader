@@ -1,3 +1,4 @@
+from genericpath import exists
 import os;
 import re;
 
@@ -47,14 +48,23 @@ def makeFolder(folderName: str, shutUp: bool = False) -> None:
 		pass;
 
 def logF(
-		output:   str, 
-		end:      str = '\n', 
-		flush:    bool = False, 
-		console:  bool = True, 
-		fileName: str = "console"
+		output:     str, 
+		end:        str  = '\n', 
+		flush:      bool = False, 
+		console:    bool = True, 
+		fileName:   str  = "console",
+		customPath: str  = None
 	) -> None:
 
-	with open(os.path.join(homeDir, "logs", getTimeStamp(), fileName + ".txt"), mode='a', encoding="UTF-8") as txt:
+	if (customPath is None):
+		customPath = os.path.join(homeDir, "logs", getTimeStamp());
+
+		if (not os.path.exists(customPath)):			 # just print normally without logging if path doesnt exist to avoid a crash
+			print(f"^! {output}", end=end, flush=flush); # with a small warning to the developer that the path does not exist!
+			return;										 # Usually this only happens if the init() function is yet to be called in main, hence this is indented
+
+
+	with open(os.path.join(customPath, fileName + ".txt"), mode='a', encoding="UTF-8") as txt:
 		print(output, file=txt, end=end, flush=flush);
 		if (console):
 			print(output, end=end, flush=flush);
