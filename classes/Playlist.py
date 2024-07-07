@@ -1,3 +1,5 @@
+from os.path import abspath;
+
 from dataclasses import dataclass
 from classes.PlaylistVideo import PlaylistVideo;
 
@@ -24,8 +26,8 @@ class Playlist:
 	@classmethod
 	def loadCache(cls, videoCachePath: str) -> None:
 		info: list = cls.getDetails(videoCachePath);
-		return cls(info[1], info[2], videoCachePath);
-				 # name     uploader
+		return cls(info[1], info[2], abspath(videoCachePath)); # abspath because cwd changes
+			 # name     uploader
 			
 	def eachInCache(self) -> PlaylistVideo:
 		beginRead: bool = False;
