@@ -2,7 +2,7 @@ import os;
 from time import strftime;
 
 homeDir: str = os.getcwd();
-baseUrl: str = "https://pipedapi-libre.kavin.rocks";
+baseUrl: str = "https://pipedapi.adminforge.de";
 timeStamp: str = strftime("%Y-%b-%d-%H-%M-%S");
 
 def setBaseUrl(newLink: str) -> None:

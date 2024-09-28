@@ -68,3 +68,4 @@ def logF(
 		print(output, file=txt, end=end, flush=flush);
 		if (console):
 			print(output, end=end, flush=flush);
+	txt.close();

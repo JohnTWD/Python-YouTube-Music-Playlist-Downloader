@@ -6,9 +6,10 @@ Hello guys this is a simple youtube playlist downloader by me.
 
 #### PipedAPI base URLs historically used by this Projekt:
 
-- ~~`https://pipedapi.kavin.rocks`~~   -> Constantly down
-- ~~`https://pipedapi.syncpundit.io`~~ -> Currently down
-- ~~`https://pipedapi-libre.kavin.rocks`~~ -> [Current default]
+- ~~`https://pipedapi.kavin.rocks`~~
+- ~~`https://pipedapi.syncpundit.io`~~ 
+- ~~`https://pipedapi-libre.kavin.rocks`~~
+- https://pipedapi.adminforge.de (Most instances are down due to YT anti bot measures, and this is the only working one I found)
 
 > // Or you can just take a look at the [instance list](https://github.com/TeamPiped/Piped/wiki/Instances), but a lot of the URLs there are not exactly working very well
 
@@ -26,9 +27,10 @@ I am using [Piped](https://github.com/TeamPiped/Piped) for this. Documents for i
 - [X] Allow user to set range to download using the index (instead of downloading the whole playlist from the start)
 - [X] Add logging of all output to a text file
 - - [X] Also make error logs a separate file 
+- [ ] Have the downloader try another instance, should errors arise
 - [ ] Add colors to text
 - [ ] Threading. Yes.
-- [ ] ~~Use Inviduous API instead, if Piped is still constantly down~~ Their API has high chances of audio links being innaccesible. Also, the alternative Piped API we are using works pretty well as of this commit
+- [ ] Might switch to Invidious API instead for downloading streams, but depends
 
 ```
 *%%%%%%%%%%###############%%%@@@@@@@+   ..          -@@@@@@@@@@@@@@@@.   ..          

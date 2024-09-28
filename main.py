@@ -38,9 +38,13 @@ def init() -> None:
 parser: argparse.ArgumentParser = argparse.ArgumentParser();
 parser.add_argument("-cmp","--comparepldata", nargs=2, help="Compare playlist caches to see differences", metavar=("filepath1", "filepath2"));
 parser.add_argument("-ck", "--checkplchanges", nargs=1, help="Check Playlist changes by ID *Stores playlist data under pldata*", metavar=("ID"));
+parser.add_argument("-dl", "--downloadplaylist", nargs=1, help="Download a playlist via its ID/cache file", metavar=("playlist"));
+
 
 args = parser.parse_args();
 def main():
+	dlSilent: bool = False;
+
 	os.system("color");
 	
 	if (args.comparepldata):
@@ -78,6 +82,9 @@ def main():
 
 		return;
 
+	if (args.downloadplaylist):
+		dlSilent = True;
+
 	while (True):
 		init();
 
@@ -85,20 +92,26 @@ def main():
 
 		logF(f"Current time: {getTimeStamp()}");
 
-		customInstance: str = input(f"If the main instance `{getBaseUrl()}` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
-		if (customInstance): # custom instance is not empty
-			setBaseUrl(customInstance);
+		if (not dlSilent):
+			customInstance: str = input(f"If the main instance `{getBaseUrl()}` is down, you can choose a custom piped api instance here.\nElse, leave this empty: ");
+			if (customInstance): # custom instance is not empty
+				setBaseUrl(customInstance);
 
 		logF(f"baseUrl={getBaseUrl()}");
 
-		logF(
-			"\nEnter playlist. You can choose to load a playlist from a cache or the ID of the playlist" +
-			"\nPlaylist ID is at ...youtube.com/playlist?list=PLgyjA..." +
-			"\nCopy it from the back part --------------------^^^^^^^^^" +
-			"\nAlternatively, provide the cache file. Enter the WHOLE filepath of the cache file"
-		);
+		plId: str = '';
 
-		plId: str = input("Enter playlist ID: ");
+		if (not dlSilent):
+			logF(
+				"\nEnter playlist. You can choose to load a playlist from a cache or the ID of the playlist" +
+				"\nPlaylist ID is at ...youtube.com/playlist?list=PLgyjA..." +
+				"\nCopy it from the back part --------------------^^^^^^^^^" +
+				"\nAlternatively, provide the cache file. Enter the WHOLE filepath of the cache file"
+			);
+
+			plId = input("Enter playlist ID: ");
+		else:
+			plId = args.downloadplaylist[0];
 
 		plInfo: Playlist = None;
 		if (os.path.exists(plId)):	# assume its a cache
@@ -114,46 +127,47 @@ def main():
 
 		del plDetails;
 
-		if (input("View playlist items? (y)") == 'y'):
+		if (dlSilent or input("View playlist items? (y)") == 'y'):
 			plInfo.show();
 
-		isValidSelection:  bool = False;
 		shouldDownloadAll: bool = False;
-		selectedRange: str;
-		while (not isValidSelection):
-			plSize: int = plInfo.getCount();
+		dlIndex: set = {}
 
-			logF(f"Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\". Ordering is optional\nRange: 1-{plSize}");
-			selectedRange = input(f"Or, you can leave this blank to download the entire thing: ");
+		if (not dlSilent):
+			isValidSelection:  bool = False;
+			while (not isValidSelection):
+				plSize: int = plInfo.getCount();
 
-			if (selectedRange == ''):
-				shouldDownloadAll = True;
-				isValidSelection = True;
-			else:
-				isValidSelection = isGoodRange(plSize, selectedRange);
-		dlIndex: set = getSelectedIndices(selectedRange);
+				logF(f"Choose which parts of the playlist to download\nE.g. \"2-6, 9, 12-16\". Ordering is optional\nRange: 1-{plSize}");
+				selectedRange: str = input(f"Or, you can leave this blank to download the entire thing: ");
+
+				if (selectedRange == ''):
+					shouldDownloadAll = True;
+					isValidSelection = True;
+				else:
+					isValidSelection = isGoodRange(plSize, selectedRange);
+			dlIndex = getSelectedIndices(selectedRange);
+
+			if (input("Begin download? (y)") != 'y'):
+				continue;
 
 		# create output folder and enter it
 		makeFolderEnter("OUTPUT");
 		logF('@' + os.getcwd());
-
-		if (input("Begin download? (y)") != 'y'):
-			continue;
-
+		
 		for video in plInfo.eachInCache():
 			assert isinstance(video, PlaylistVideo);
 
-			if (shouldDownloadAll or (video.index in dlIndex)):
+			if (dlSilent or shouldDownloadAll or (video.index in dlIndex)):
 				try:
 					doDownloadAudioFile(video);
-				except Exception:
-					try:
-						logF(f"Shit failed! Retrying download {video.title} from {video.link}; ", end="", flush=True);
-						sleep(5);
-						doDownloadAudioFile(video);
-					except Exception as e:
-						logF(f"Failed to download due to the following error:\n{format_exc()}\nGiving up and skipping...", flush=True);
-						errlog(video, e, plId);
+				except Exception as e:
+					logF(f"Failed to download {video.title} from {video.link}; ", end="", flush=True);
+					logF(f"Error thrown:\n{format_exc()}\nGiving up and skipping...", flush=True);
+					errlog(video, e, plId);
 
 		logF("\n\nALL DOWNLOADS DONE. READY FOR NEW BATCH\n");
+
+		if (dlSilent):
+			return;
 if (__name__=="__main__"):	main();

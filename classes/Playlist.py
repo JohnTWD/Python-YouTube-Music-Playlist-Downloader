@@ -38,7 +38,7 @@ class Playlist:
 					triArgs: tuple = tuple(line.strip().split(' ', 2));		# 2 splits only
 
 					yield PlaylistVideo(
-						int(triArgs[0]),		# index
+						int(triArgs[0]),	# index
 						triArgs[2],			# title
 						triArgs[1],			# link
 					);
